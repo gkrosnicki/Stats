@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Iterator;
 import java.util.List;
+import javax.ejb.LocalBean;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,13 +21,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Stateless
+@LocalBean
 public class PersistBean {
     //@PersistenceContext(unitName="persistanceUnit")
     @PersistenceContext(unitName="NewPersistenceUnit")
     public EntityManager em;
 
-    //@EJB
-    DownloadBean downloadBean = new DownloadBean();
+    @EJB
+    DownloadBean downloadBean;
 
     public void getStats(){
         Query query = em.createQuery("select s from StatsEntity s");

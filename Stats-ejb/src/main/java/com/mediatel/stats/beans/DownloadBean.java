@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.util.Iterator;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,16 +25,21 @@ import java.util.Iterator;
  */
 
 @Stateless
+@LocalBean
 public class DownloadBean{
-
+    @EJB
+    ConfigBean configBean;
 
     public Iterator getDataFromXls() {
         SmbFileInputStream smbFileInputStream = null;
         System.out.println("Pobiera dane z xls");
-        String user = "dgt:dgt@2011";
+        String user = configBean.getSmbuser();
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(user);
-        String filePath="smb://sydney.mtl.lan/trunks/voip/Firewall_VoIP_billing.xls";
+        String filePath=configBean.getSmbpath();
         SmbFile sFile = null;
+        
+        
+        
         try {
             sFile = new SmbFile(filePath, auth);
         } catch (MalformedURLException ex) {
